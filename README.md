@@ -1,47 +1,102 @@
+# Code examples for PandaDoc Salesforce package extensions
 
-# Salesforce JSON Builder example for PandaDoc.
-By default PandaDoc package supports only Account, Contact, Lead and Opportunity objects. This repository contains example code for adding additional objects to Salesforce-PandaDoc integration.
- 
-**If you want to use additional objects with PandaDoc this tutorial can help you with that.**
+This repository contains code examples and available API methods for PandaDoc extension for Salesforce CRM.
+Our [AppExchange page](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N3A00000DvMrEUAV)
 
-## Step1 Minimal setup
-&nbsp;&nbsp;&nbsp;&nbsp;All source code examples for this step stores in branch **first-step**
+Sometimes standard functionality of PandaDoc package is not enough.
+For that reason our package provide API for implementing additional customizations focused for specific business cases.
 
-&nbsp;&nbsp;&nbsp;&nbsp;At first you should create a new VisualForce page. This page will be added to your Object layout later. Go to [CustomObjectPandaDoc.page](//github.com/PandaDoc/pandadoc-sfdc-examples/blob/master/src/pages/CustomObjectPandaDoc.page) file. Copy the source of this page and paste it to your new page. Now find in first line: `standardController="PD_Custom_Object__c"` and replace PD_Custom_Object__c to your object API name. Save your new page **and add it to object layout**.
+Currently PandaDoc package provide two different API for package extensions.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Now you can open object and see this:
-![No JsonBuilder](screenshots/step1_shot1_no_mapping.png)
+1. ## JSON builders.
+    JSON builders used for passing data from Salesforce to PandaDoc document. It is a class which implements `pandadoc.JsonBuilder` interface. JSON builder can pass this data into PandaDoc:
+    - tokens
+    - document name
+    - pricing items
+    - recipients
+    - metadata
 
-&nbsp;&nbsp;&nbsp;&nbsp;Need to create JSON builder which will convert your SObject to acceptable data format for PandaDoc. Go to [Step1: CustomObjectJsonBuilder.cls](//github.com/PandaDoc/pandadoc-sfdc-examples/blob/first-step/src/classes/CustomObjectJsonBuilder.cls) file. If you opened CustomObjectJsonBuilder in **first-step** branch then now you see minimal example for JSON builder.  Copy the source code of this class and save it to your new. Don't forget to change class name at first line and constructor name. Also in line `super(PD_Custom_Object__c.getSObjectType(), null, null);` you should change PD_Custom_Object__c to your SObject API name.
+2. ## Trigger handlers
+    Every time when document state changes PandaDoc sends new document payload in JSON format into SFDC. Our package save this data into [pandadoc__PandaDocDocument__c](docs/pandadoc__PandaDocDocument__c.md) object. Our API provide simplified solution for handling this changes via SF triggers. Currently we sending this events to SFDC side:
+    - `document_state_changed`: document status was changed or new document created. You got this event every time when document was sent\paid\approved\etc
+    - `recipient_completed`: some recipient filled all required input fields for him
+    - `document_deleted`: document was deleted
+    - `document_updated`: document moved to draft status after sending or completing. New document version was generated
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After that go to PandaDoc Setup page in your Salesforce organization. Here you need to add your new JSON builder and link it to SObject. For that click on `Add JSON builder` button.
+# How to use this examples
 
-![Add builder button](screenshots/step1_shot2_add_mapping.png)
+All examples are in folder `examples`. This is sfdx project. You can read how to work with sfdx [here](https://developer.salesforce.com/tools/sfdxcli). We are highly recommends to upload this source code into some scratch org and make experiments there.
+By default this source code are already have [installedPackage](examples/force-app/main/default/installedPackages/pandadoc.installedPackage-meta.xml) in it.
+So no need to install our package manually. Also it have already configured simple custom object.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Now you can open object and see this:
-![No JsonBuilder](screenshots/step1_shot3_no_field_set.png)
+# StandardJsonBuilder
 
-&nbsp;&nbsp;&nbsp;&nbsp;According to error text create fieldset with name which was mentioned in error. This field set used for sending Salesforce fields to PandaDoc as tokens.
+PandaDoc package providing are StandardJsonBuilder. This builder can be configured to provide:
+- set of tokens
+- related recipients
+- related pricing items
+- document name
+- send object itself as recipient(usefull for objects like Lead, Contact or Account)
 
-&nbsp;&nbsp;&nbsp;&nbsp;That's it! Now you have minimal setup for custom object. Currently JSON builder does not forms recipients or pricing items. How to do this you can see in next steps.
-![Completed setup](screenshots/step1_shot4_completed.png)
+This builder can be configured via UI. Probably this functionality is enough to cover your business requirements. In this case no need to create new Apex classes just use this functionality. Use `PandaDoc Quick Setup` button on `PandaDoc Setup` page to use already provided functionality.
 
-## Step2 Adding Pricing Items
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All source code examples for this step stores in branch **second-step**
+![quick setup](screenshots/01-quick-setup-btn.png)
+![adding screen](screenshots/02-adding-screen.png)
+![builder setup](screenshots/03-builder-setup.png)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;At first we need to create a mapping. Go to `PandaDoc configure PricingItems` tab.  And here add mapping for SObject which should be used as PricingItem. For example if we want to send **Opportunilty Products** from **Opportunity** to PandaDoc as Pricing Items then we need to create mapping for **Opportunilty Products** but not for *Opportunity* itself.
-![No JsonBuilder](screenshots/step2_shot1_add_pricing_item.png)
+# Custom JSON builder examples
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also in JSON builder we need to implement method `pandadoc.Item[] getItems(sObject record)`. Here is example for that: [Step2: CustomObjectJsonBuilder.cls](//github.com/PandaDoc/pandadoc-sfdc-examples/blob/second-step/src/classes/CustomObjectJsonBuilder.cls#L9-L31) . Just adapt this example to your data model. Also you can use alternate version for this: [Step2.1: CustomObjectJsonBuilder.cls](//github.com/PandaDoc/pandadoc-sfdc-examples/blob/second-step-alternate/src/classes/CustomObjectJsonBuilder.cls#L4-L32)
+In `examples` folder you can find source code for JSON builders:
+- [MinimalJsonBuilder](examples/force-app/main/default/classes/MinimalJsonBuilder.cls): According to his name it just a minimal JSON Builder. It respects document name and tokens list which was configured via `PandaDoc Setup` page. But recipients and pricing items always be empty.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now if you open your object you see error:
-![No child fieldset](screenshots/step2_shot2_field_set_for_item.png)
+        NOTE: Make sure that class have `global` access level.
 
-You should create a field set for Pricing Item objects just like you did it for parent sobject previously. This field set used for sending custom fields for Pricing Items,
+- [CustomRecipients](examples/force-app/main/default/classes/CustomRecipients.cls): This example adding two recipients to document. One of them is generated via related contact. And another is just a hardcoded recipient.
+    - Method `getObjectContact` shows how to generate recipient from SObject. This method respects `Recipient Mapping` setting from `PandaDoc Setup`.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Now your Pricing Items should works!
+            NOTE: To avoid `System.SObjectException: SObject row was retrieved via SOQL without querying the requested field` error please re select provided sobject for every  required operation  like "form recipients" or "form pricing items"
 
-## Step3 Adding Recipients
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sending Recipient is very similar to previous step with Pricing Item. See example: [Step3: CustomObjectJsonBuilder.cls](//github.com/PandaDoc/pandadoc-sfdc-examples/blob/third-step/src/classes/CustomObjectJsonBuilder.cls#L33-L55) . Or alternate version: [Step3.1: CustomObjectJsonBuilder.cls](//github.com/PandaDoc/pandadoc-sfdc-examples/blob/third-step-alternate/src/classes/CustomObjectJsonBuilder.cls) . 
+    - Method `getPredefinedRecipient` shows how to generate recipient for any sort of data. This method can not work with recipient mapping from `PandaDoc Setup` page. But this way allow to generate recipients almost from everything.
+    <br>
+    Additional information about `Recipient` object [here](docs/Recipient.md)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You also need to create Recipient mapping in the `PandaDoc Configure Recipients` tab. **But for Recipients no need to create any field sets because they are not supports custom fields.**
+- [CustomPricingItems](examples/force-app/main/default/classes/CustomPricingItems.cls): Similar to `CustomRecipients` shows how add pricing items into document.
+
+        NOTE: By default package does not have pricing item mapping for Product2 object.
+        NOTE: Currently we are not providing any public API to use sorting settings from Pricing Items mapping page. This is experimental feature and public access for third party customizations be added later.
+
+    Additional information about `Item` object [here](docs/Item.md)
+
+- [ExtraTokens](examples/force-app/main/default/classes/ExtraTokens.cls): This builder adding some additional tokens to document. And still document have tokens which was selected on `PandaDoc Setup` page.
+
+For using custom JSON builder class upload this examples to target organization with installed PandaDoc package. After that press to the "Add Custom JSON Builder" button and in showed popup window please enter a class name and select SObject.
+
+![custom-builder-btn](screenshots/04-custom-builder-btn.png)
+![adding-custom-builder](screenshots/05-adding-custom-builder.png)
+
+# VisualForce inline page for classic UI
+We are highly recommend to use Lightning component for adding PandaDoc to SObject pages. You can read how to do that [here](https://support.pandadoc.com/hc/en-us/articles/360019828554-Salesforce-Lightning-Standard-setup-). If you are not using Lightning UI for some reason you need to create a new Visualforce page for every  object which you want to use with PandaDoc. Except for Contact, Lead, Account and Opportunity VF pages for this objects already included in package.
+
+More info about configuring PandaDoc for classic UI can be found [here](https://support.pandadoc.com/hc/en-us/articles/360007816454-Salesforce-Classic-Add-PandaDoc-to-custom-objects)
+
+# Trigger handler example
+
+[DocumentHandler](examples/force-app/main/default/classes/DocumentHandler.cls) provides an example of trigger handler. This simple handler updates OpportunityLineItem quantity and unit price from PandaDoc document. This handler still can not be executed without properly created trigger for `pandadoc__PandaDocDocument__c` object. Please look at [PandaDocDocumentTrigger](examples/force-app/main/default/triggers/PandaDocDocumentTrigger.trigger). Please look at `pandadoc.TriggerTemplate.TriggerManager` object. This object provide possibility to work with `Document trigger settings` from the `PandaDoc setup` page.
+
+For adding custom Trigger to PandaDoc upload all source code into organization. And click on `Add new trigger` button.
+![new-trigger-btn](screenshots/06-new-trigger-btn.png)
+
+On PopUp window enter title for new handler(any human readable text). And internal trigger name. This name will be unique identificator for this trigger. And this name should be used with `pandadoc.TriggerManager.isTriggerEnabled` method.
+
+![new-trigger-setup](screenshots/07-trigger-setup.png)
+
+If everything was configured correctly you will have possibility to enable\disable trigger handlers right from PandaDoc setup page.
+
+# Additional API reference
+- [Item](docs/Item.md): wrapper for document pricing item
+- [Recipient](docs/Recipient.md): wrapper for document recipient
+- [JSONBuilder](docs/JSONBuilder.md): base class for custom JSON builders
+- [pandadoc__PandaDocDocument__c](docs/pandadoc__PandaDocDocument__c.md): Database object which represents PandaDoc document
+- [DocumentWrapper](docs/DocumentWrapper.md): wrapper for document payload. Used in triggers
+- [TriggerTemplate](docs/TriggerTemplate.md): util classes for implementing custom trigger handlers
+- [TriggerManager](docs/TriggerManager.md): API for trigger settings

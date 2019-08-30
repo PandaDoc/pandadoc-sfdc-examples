@@ -4,7 +4,6 @@
 .settings/
 .metadata
 build.properties
-config
 
 # Apex Log as optional
 apex-scripts/log
@@ -14,7 +13,6 @@ salesforce.schema
 Referenced Packages
 bin/
 tmp/
-config/
 *.tmp
 *.bak 
 local.properties
@@ -36,3 +34,5 @@ IlluminatedCloud
 
 # OSX-specific exclusions
 .[dD][sS]_[sS]tore
+
+.sfdx

@@ -1,0 +1,39 @@
+<apex:page
+    id="PandaDocForCustomObject"
+    standardController="CustomObject__c"
+    extensions="pandadoc.PandaDocController"
+    showHeader="false"
+    sideBar="false">
+
+    <apex:includeScript value="/support/console/44.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.pandadoc__SObjectMapper, '/pandaDocSetup.js')}" />
+    <pandadoc:SDKResources />
+
+    <style>
+        .pandadoc-doc-list {
+            width: 100%;
+            height: 395px;
+        }
+    </style>
+
+    <apex:form >
+        <apex:pageBlock title="PandaDoc Documents" mode="edit">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="New document" onclick="openCreateNewPage(); return false;"/>
+            </apex:pageBlockButtons>
+
+            <div id="pandadoc_list"></div>
+        </apex:pageBlock>
+    </apex:form>
+
+    <script type="text/javascript">
+      function openCreateNewPage() {
+        var navUrl = '{!JSENCODE(redirectToNewDocument.url)}';
+        window.pandaDocNavigate(navUrl);
+      }
+
+      var PANDADOC_DOCUMENT_DATA = JSON.parse("{!JSENCODE(recordIdMetadata)}");
+      PandaDoc.Config.SDK_APP = '{!JSENCODE(PANDADOC_APP_HOST)}';
+      PandaDoc.Salesforce.setupDocList('#pandadoc_list', PANDADOC_DOCUMENT_DATA);
+    </script>
+</apex:page>
