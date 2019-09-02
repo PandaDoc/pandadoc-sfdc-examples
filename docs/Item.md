@@ -4,7 +4,7 @@ Represents document pricing item. Uses by [JSON builders](JSONBuilder.md)
 
 ## Constructors
 
-- `global Item(Item.ItemSettings setting, SObject sObj)`: create Item from SObject according to [Item.ItemSettings](#Item.ItemSettings). This constructor can throw exception in case if do not selected required fields or if you have invalid configuration in `ItemSettings`
+- `global Item(Item.ItemSettings setting, SObject sObj)`: create Item from SObject according to [Item.ItemSettings](#itemitemsettings). This constructor can throw exception in case if do not selected required fields or if you have invalid configuration in `ItemSettings`
 - `global Item(String sku, String name, Decimal price, Decimal qty, String description)`
 - `global Item(String sku, String name, Decimal price, Decimal qty, String description, Decimal discount)`
 - `global Item(String sku, String name, Decimal price, Decimal qty, String description, Decimal discount, Decimal taxFirst, Decimal taxSecond, Object customFields)`
@@ -12,10 +12,10 @@ Represents document pricing item. Uses by [JSON builders](JSONBuilder.md)
 
 ## Methods
 
-- `global static Item sObjectToItem(SObject sObj)`: converts SObject into Item according to [Item.ItemSettings](#Item.ItemSettings). Return null if have some error with configuration or if SOQL request has not required fields for convertation.
+- `global static Item sObjectToItem(SObject sObj)`: converts SObject into Item according to [Item.ItemSettings](#itemitemsettings). Return null if have some error with configuration or if SOQL request has not selected fields for convertation.
 
 ## Variables
-- `global static Map<String, ItemSettings> PRICING_ITEM_SETTINGS_MAP`: Dictionary where key is SObject name in lowercase and value is [Item.ItemSettings](#Item.ItemSettings) for this object. This dictionary automatically be initiated at first call. 
+- `global static Map<String, ItemSettings> PRICING_ITEM_SETTINGS_MAP`: Dictionary where key is SObject name in lowercase and value is [Item.ItemSettings](#itemitemsettings) for this object. This dictionary automatically be initiated at first call. 
 
 ## Item.ItemSettings
 

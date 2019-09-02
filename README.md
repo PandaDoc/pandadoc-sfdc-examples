@@ -57,7 +57,7 @@ In `examples` folder you can find source code for JSON builders:
             NOTE: To avoid `System.SObjectException: SObject row was retrieved via SOQL without querying the requested field` error please re select provided sobject for every  required operation  like "form recipients" or "form pricing items"
 
     - Method `getPredefinedRecipient` shows how to generate recipient for any sort of data. This method can not work with recipient mapping from `PandaDoc Setup` page. But this way allow to generate recipients almost from everything.
-    <br>
+
     Additional information about `Recipient` object [here](docs/Recipient.md)
 
 - [CustomPricingItems](examples/force-app/main/default/classes/CustomPricingItems.cls): Similar to `CustomRecipients` shows how add pricing items into document.
@@ -75,7 +75,7 @@ For using custom JSON builder class upload this examples to target organization 
 ![adding-custom-builder](screenshots/05-adding-custom-builder.png)
 
 # VisualForce inline page for classic UI
-We are highly recommend to use Lightning component for adding PandaDoc to SObject pages. You can read how to do that [here](https://support.pandadoc.com/hc/en-us/articles/360019828554-Salesforce-Lightning-Standard-setup-). If you are not using Lightning UI for some reason you need to create a new Visualforce page for every  object which you want to use with PandaDoc. Except for Contact, Lead, Account and Opportunity VF pages for this objects already included in package.
+We are highly recommend to use Lightning component for adding PandaDoc to SObject pages. You can read how to do that [here](https://support.pandadoc.com/hc/en-us/articles/360019828554-Salesforce-Lightning-Standard-setup-). If you are not using Lightning UI for some reason you need to create a new Visualforce page for every  object which you want to use with PandaDoc. Except for Contact, Lead, Account and Opportunity VF pages for this objects already included in package. Example VF page can be found [here](examples/force-app/main/default/pages/PandaDocForCustomObject.page)
 
 More info about configuring PandaDoc for classic UI can be found [here](https://support.pandadoc.com/hc/en-us/articles/360007816454-Salesforce-Classic-Add-PandaDoc-to-custom-objects)
 

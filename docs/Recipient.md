@@ -4,15 +4,15 @@ Represents recipietns. Uses by [JSON builders](JSONBuilder.md)
 
 ## Constructors
 
-- `global Recipient(Recipient.RecipientSettings settings, SObject sObj)`: create Recipient from SObject according to [Recipient.RecipientSettings](#Recipient.RecipientSettings). This constructor can throw exception in case if do not selected required fields or if you have invalid configuration in `RecipientSettings`
+- `global Recipient(Recipient.RecipientSettings settings, SObject sObj)`: create Recipient from SObject according to [Recipient.RecipientSettings](#recipientrecipientsettings). This constructor can throw exception in case if do not selected required fields or if you have invalid configuration in `RecipientSettings`
 - `global Recipient(String first_name, String last_name, String email, String company, String roleName)`
 
 ## Methods
 
-- `global static Recipient sObjectToRecipient(SObject sObj)`: converts SObject into Recipient according to [Recipient.RecipientSettings](#Recipient.RecipientSettings). Return null if have some error with configuration or if SOQL request has not required fields for convertation.
+- `global static Recipient sObjectToRecipient(SObject sObj)`: converts SObject into Recipient according to [Recipient.RecipientSettings](#recipientrecipientsettings). Return null if have some error with configuration or if SOQL request has not required fields for convertation.
 
 ## Variables
-- `global static Map<String, Recipient.RecipientSettings> RECIPIENT_SETTINGS_MAP`: Dictionary where key is SObject name in lowercase and value is [Recipient.RecipientSettings](#Recipient.RecipientSettings) for this object. This dictionary automatically be initiated at first call.
+- `global static Map<String, Recipient.RecipientSettings> RECIPIENT_SETTINGS_MAP`: Dictionary where key is SObject name in lowercase and value is [Recipient.RecipientSettings](#recipientrecipientsettings) for this object. This dictionary automatically be initiated at first call.
 
 # Recipient.RecipientSettings
 
