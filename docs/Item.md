@@ -12,7 +12,7 @@ Represents document pricing item. Uses by [JSON builders](JSONBuilder.md)
 
 ## Methods
 
-- `global static Item sObjectToItem(SObject sObj)`: converts SObject into Item according to [Item.ItemSettings](#itemitemsettings). Return null if have some error with configuration or if SOQL request has not selected fields for convertation.
+- `global static Item sObjectToItem(SObject sObj)`: converts SObject into Item according to [Item.ItemSettings](#itemitemsettings). Returns null if there was an error with configuration or if SOQL request doesn’t have the selected fields for conversion.
 
 ## Variables
 - `global static Map<String, ItemSettings> PRICING_ITEM_SETTINGS_MAP`: Dictionary where key is SObject name in lowercase and value is [Item.ItemSettings](#itemitemsettings) for this object. This dictionary automatically be initiated at first call. 

@@ -1,6 +1,6 @@
 # PandaDoc Document
 
-Technical SObject which used for representation PandaDoc document in SFDC. Primarily used for implementing event handlers and storing historical data. API name: `pandadoc__PandaDocDocument__c`
+Technical SObject which is used to represent PandaDoc document in SFDC. Primarily used for implementing event handlers and storing historical data. API name: `pandadoc__PandaDocDocument__c`.
 
 ## Fields
 - `pandadoc__Account__c`: `Lookup(Account)`: Relation to Account. Has value if this document linked with Account. Empty otherwise.

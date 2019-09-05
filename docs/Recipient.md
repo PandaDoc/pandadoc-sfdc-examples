@@ -1,6 +1,6 @@
 # Recipient
 
-Represents recipietns. Uses by [JSON builders](JSONBuilder.md)
+Represents recipients, used by [JSON builders](JSONBuilder.md).
 
 ## Constructors
 
@@ -9,7 +9,7 @@ Represents recipietns. Uses by [JSON builders](JSONBuilder.md)
 
 ## Methods
 
-- `global static Recipient sObjectToRecipient(SObject sObj)`: converts SObject into Recipient according to [Recipient.RecipientSettings](#recipientrecipientsettings). Return null if have some error with configuration or if SOQL request has not required fields for convertation.
+- `global static Recipient sObjectToRecipient(SObject sObj)`: converts SObject into Recipient according to [Recipient.RecipientSettings](#recipientrecipientsettings). Returns null if there was an error with configuration or if SOQL request doesn’t have the selected fields for conversion.
 
 ## Variables
 - `global static Map<String, Recipient.RecipientSettings> RECIPIENT_SETTINGS_MAP`: Dictionary where key is SObject name in lowercase and value is [Recipient.RecipientSettings](#recipientrecipientsettings) for this object. This dictionary automatically be initiated at first call.
@@ -23,7 +23,7 @@ Represents recipietns. Uses by [JSON builders](JSONBuilder.md)
 - `global String objectName`: name of SObject in lowcase
 - `global String companyField`: SObject field name which should be used as recipient company
 - `global String emailField`: SObject field name which should be used as recipient email
-- `global Boolean filterIfChecked`: If equals to true than Recipient be filtered if value in filtering field equals to True. Otherwise Recipient be filtered if value in filtering field equals to False
+- `global Boolean filterIfChecked`: If True, then Recipient will be filtered if value in filtering field equals to True. Otherwise filters Recipient if value in filtering field equals to False.
 - `global String filteringField`: SObject field name which should be used as recipient filtering field
 - `global String firstNameField`: SObject field name which should be used as recipient first name
 - `global String lastNameField`: SObject field name which should be used as recipient last name

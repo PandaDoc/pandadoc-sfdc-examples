@@ -14,7 +14,7 @@ Parse PandaDoc document JSON payload and provide simple API for access to docume
     - `document_state_changed`: document status was changed or new document created. You got this event every time when document was sent\paid\approved\etc
     - `recipient_completed`: some recipient filled all required input fields for him
     - `document_deleted`: document was deleted in PandaDoc
-    - `document_updated`: document moved to draft status after sending or completing. New document version was generated
+    - `document_updated`: sent or completed document was edited (moved to draft). New document version was generated.
 - `global DocumentWrapper.DocumentData data`: document data wrapper. See [DocumentData](#documentwrapperdocumentdata)
 
 
@@ -68,8 +68,8 @@ Extends from [DocumentPerson](#documentwrapperdocumentperson) and have all field
 
 # DocumentWrapper.DocumentProducts
 - `global String sku`: product sku
-- `global Map<String, Object> custom_fields`: here you will get all fields which was selected on the "Configure Tokens" page for this Product type. For example by default there is selected the "Id" field for `OpportunityLineItem` object. Please note if field value equal to 'null' then this value does not been added here Dictionary just would not have this key.
-- `global Map<String, Object> custom_columns`: here you will get all custom columns which was added in PandaDoc UI.
+- `global Map<String, Object> custom_fields`: here you will get all fields that were selected on the `Configure Tokens` page for this Product type. By default there is a selected `Id` field for `OpportunityLineItem` object. Please note that if the field value equal to `null`, then this value won’t been added here, Dictionary won’t have this key.
+- `global Map<String, Object> custom_columns`: here you will get all custom columns that were added on PandaDoc UI.
 - `global String description`: product description.
 - `global DocumentWrapper.Discount discount`: product discount. Should be in percents. Please see [Discount](#discount).
 - `global String name`: product name
