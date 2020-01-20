@@ -1,9 +1,6 @@
 {
-  "orgName": "minimal_setup",
+  "orgName": "pandadoc_sfdx_example",
   "edition": "Developer",
-  "features": "",
-  "orgPreferences": {
-    "enabled": [],
-    "disabled": []
-  }
+  "features": [],
+  "settings": {}
 }

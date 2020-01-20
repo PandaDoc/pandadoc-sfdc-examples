@@ -68,6 +68,8 @@ In `examples` folder you can find the source code for JSON builders:
 
 - [ExtraTokens](examples/force-app/main/default/classes/ExtraTokens.cls): This builder adds additional tokens to a document. The document will have tokens which were selected in the `PandaDoc Setup` page.
 
+- [CustomRelation](examples/force-app/main/default/classes/CustomRelation.cls): This builder shows how to link document to additional object. Every new document be shown on CustomObject and on related contact. See: [SourceNode](docs/SourceNode.md)
+
 To use custom JSON builder class, upload examples to target organization with installed PandaDoc package. After that, click on the `Add Custom JSON Builder` button and in the showed popup window, please enter the class name for the selected SObject.
 
 ![custom-builder-btn](screenshots/04-custom-builder-btn.png)
@@ -101,3 +103,4 @@ If everything has been configured correctly you will have a possibility to enabl
 - [DocumentWrapper](docs/DocumentWrapper.md): wrapper for document payload. Used in triggers
 - [TriggerTemplate](docs/TriggerTemplate.md): util classes for implementing custom trigger handlers
 - [TriggerManager](docs/TriggerManager.md): API for trigger settings
+- [SourceNode](docs/SourceNode.md): Represents an entity which linked with document

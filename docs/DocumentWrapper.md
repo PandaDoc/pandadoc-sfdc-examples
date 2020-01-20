@@ -29,6 +29,7 @@ Represents PandaDoc document data
 - `global Datetime date_modified`: when document was edited
 - `global String id`: PandaDoc document Id
 - `global Map<String, String> metadata`: document metadata
+- `global SourceNode source_node`: link between PandaDoc document and Salesforce SObject. See: [SourceNode](SourceNode.md)
 - `global String name`: document name
 - `global List<DocumentWrapper.DocumentProducts> products`: list of document pricing items. See [DocumentProducts](#documentwrapperdocumentproducts)
 - `global List<DocumentWrapper.DocumentRecipient> recipients`: list of document recipients. See  [DocumentRecipient](#documentwrapperdocumentrecipient)
