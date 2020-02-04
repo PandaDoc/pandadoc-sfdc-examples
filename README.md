@@ -70,6 +70,11 @@ In `examples` folder you can find the source code for JSON builders:
 
 - [CustomRelation](examples/force-app/main/default/classes/CustomRelation.cls): This builder shows how to link document to additional object. Every new document be shown on CustomObject and on related contact. See: [SourceNode](docs/SourceNode.md)
 
+- [DefaultBehaviorBuilder](examples/force-app/main/default/classes/DefaultBehaviorBuilder.cls): This example shows how to add default behavior for recipients and pricing items from default builder. You can as use default value as modify them according to business requirements.
+
+
+        Please note. Currently not possible to add Setup button for custom builders. As workaround possible to add builder via the PandaDoc Quick Setup button. Configure builder and after that just add your custom builder without removing Standard Builder. All your setting be saved except that your class be used insted of default class.
+
 To use custom JSON builder class, upload examples to target organization with installed PandaDoc package. After that, click on the `Add Custom JSON Builder` button and in the showed popup window, please enter the class name for the selected SObject.
 
 ![custom-builder-btn](screenshots/04-custom-builder-btn.png)
